@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital and Analog Clock</title>
+    <style>
+        #clock {
+            font-size: 50px;
+            /* margin-bottom: 20px; */
+            margin-top: 200px;
+            margin-left: 450px;
+        }
+
+        button {
+            padding: 5px;
+            margin-top: 50px ;
+            margin-left: 350px;
+            
+
+        }
+    </style>
+</head>
+
+<body>
+    <div id="clock"></div>
+    <button id="start">Start</button>
+    <button id="stop">Stop</button>
+
+
+
+
+
+
+    <script>
+        const clockElement = document.getElementById('clock');
+        const startButton = document.getElementById('start');
+        const stopButton = document.getElementById('stop');
+
+        function updateTime() {
+            const date = new Date();
+            const time = date.toLocaleTimeString();
+            clockElement.innerText = time;
+        }
+
+        startButton.addEventListener('click', () => {
+
+            interval = setInterval(updateTime, 1000);
+        });
+
+        stopButton.addEventListener('click', () => {
+
+            clearInterval(interval);
+        });
+
+    </script>
+</body>
+
+</html>

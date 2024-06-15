@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USA DATABASE</title>
+    <style>
+        .a{
+            width: 100%;
+            padding-left: 300px;
+
+            /* display: flex; */
+            flex-wrap: wrap;
+            background-color: rgb(131, 187, 187);
+
+        }
+        .b{
+            width: 50%;
+            /* margin: 100px; */
+            background-color: rgba(221, 225, 226, 0.253);
+            padding: 20px;
+            /* display: flex; */
+            flex-direction: column;
+            justify-content: center;
+            font-size: 50px;
+
+        }
+        h1{
+            text-align: center;
+            text-decoration: underline;
+            font-size: 30px;
+
+        }
+    </style>
+</head>
+<body>
+    <h1> USA DataBase of Population</h1>
+    <div class="a">
+
+    </div>
+    <script>
+        let box = document.querySelector('.a')
+        fetch('https://datausa.io/api/data?drilldowns=Nation&measures=Population ')
+        .then((res) => res.json())
+        .then(data => {
+            console.log(data);
+            let p = ''
+            data.data.forEach(element => {
+                p += `<div class ="b">
+                 <p><b> Nation : </b> ${element.Nation}<p>
+                    <p><b> population : </b> ${element.Population}<p>
+                        <p><b> Year : </b> ${element.Year}<p>   
+                            </div>
+    
+                `
+            });
+            box.innerHTML = p
+        })
+        .catch(err => console.log(err))
+    </script>
+</body>
+</html>

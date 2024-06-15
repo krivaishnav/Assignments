@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+    <style>
+        nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+            background-color:gray;
+        }
+
+        .left {
+            margin-right: 800px;
+        }
+
+        
+
+        .product-item {
+            /* width: 100%; */
+            display: flex;
+            flex-direction: column;
+        }
+
+        button {
+            height: 30px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        #box1 {
+            background-color: gray;
+            width: 500px;
+            margin: 2px;
+            padding: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            
+    
+        }
+        .box11{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+        }
+        #load-products{
+            border-radius: 20px;
+            background-color: rgb(61, 61, 61);
+            color: white;
+            padding: 5px;
+        }
+        #show-product-btn{
+            border-radius: 20px;
+            background-color: rgb(61, 61, 61);
+            color: white;
+            padding: 5px;
+        }
+        #search-btn{
+            border-radius: 20px;
+            background-color: rgb(61, 61, 61);
+            color: white;
+            
+        }
+        #search-input{
+            border-radius: 20px;
+            background-color: lightgrey;
+            padding: 10px;
+
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            
+
+            <div class="right">
+                <button id="load-products">Get all Products</button>
+                <button id="show-product-btn">Get one Products</button>
+                <input type="search" id="search-input" placeholder="Search for products">
+                <button id="search-btn">Search</button>
+            </div>
+        </nav>
+    </header>
+    <h1>-:Products:-</h1>
+    <div id="product-list" class="box11"></div>
+    <div id="product-container" class="box11"></div>
+    <div id="results"></div>
+
+    
+
+    
+    <script>
+        // Start First Button
+        document.getElementById('load-products').addEventListener('click', function () {
+            const productList = document.getElementById('product-list');
+
+            if (productList.innerHTML === '') {
+                fetch('https://dummyjson.com/products')
+                    .then(res => res.json())
+                    .then(data => {
+                        const products = data.products;
+                        products.forEach(product => {
+                            const productItem = document.createElement('div');
+                            productItem.className = 'product-item';
+                            productItem.innerHTML = `<div id="box1">
+            <h2>${product.title}</h2>
+            <p>${product.description}</p>
+            <p>Price: $${product.price}</p>
+            <img src="${product.thumbnail}" alt="${product.title}">
+            </div>
+          `;
+                            productList.appendChild(productItem);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching data:', error);
+                    });
+            } else {
+                productList.innerHTML = '';
+            }
+        });
+        // End First Button
+        //Start Second Button
+        document.getElementById('show-product-btn').addEventListener('click', () => {
+            const container = document.getElementById('product-container');
+            if (container.innerHTML) {
+                container.innerHTML = '';
+                return;
+            }
+
+            fetch('https://dummyjson.com/products/1')
+                .then(response => response.json())
+                .then(product => {
+                    container.innerHTML = `
+        <div class="product-container" id="box1">
+          <h2>${product.title}</h2>
+          <p>${product.description}</p>
+          <p>Price: $${product.price}</p>
+          <img src="${product.thumbnail}" alt="${product.title}">
+        </div>
+      `;
+                })
+                .catch(console.error);
+        });
+        //End Second Button
+        //Start Third Button
+        document.getElementById('search-btn').addEventListener('click', () => {
+            const searchInput = document.getElementById('search-input').value;
+            const resultsContainer = document.getElementById('results');
+
+            if (!searchInput) {
+                resultsContainer.innerHTML = '<p>Please enter a search term.</p>';
+                return;
+            }
+
+            resultsContainer.innerHTML = '';
+
+            fetch(`https://dummyjson.com/products/search?q=${encodeURIComponent(searchInput)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.products.length === 0) {
+                        resultsContainer.innerHTML = '<p>No results found.</p>';
+                        return;
+                    }
+
+                    data.products.forEach(product => {
+                        resultsContainer.innerHTML += `
+          <div class="product"id="box1">
+            <h2>${product.title}</h2>
+            <p>${product.description}</p>
+            <p>Price: $${product.price}</p>
+            <img src="${product.thumbnail}" alt="${product.title}">
+          </div>
+        `;
+                    });
+                })
+                .catch(error => {
+                    resultsContainer.innerHTML = '<p>Error fetching data. Please try again later.</p>';
+                    console.error('Error fetching data:', error);
+                });
+        });
+
+    
+       
+    </script>
+</body>
+
+</html>

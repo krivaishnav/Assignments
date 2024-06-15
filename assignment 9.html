@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment 9</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <style>
+        .a {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            background-color: grey;
+
+
+        }
+        h1{
+            /* text-align: center; */
+            text-decoration: underline;
+            font-size: 50px;
+        }
+
+        .b {
+            width: 45%;
+            margin: 12px;
+            background-color: whitesmoke;
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        img{
+            width: 210px;
+            height: 210px;
+            margin-left: 100px;
+        }
+        /* .png{
+            width: 150px;
+            height: 140px;
+        } */
+    </style>
+</head>
+
+<body>
+    <!-- <label for="single product">Single product</label> -->
+    <!-- <input type="" id="singlepro" name="single product"> -->
+     <button id="button1">Single Products</button>
+     
+    
+    <h1>
+        <!-- <img class="png"  src="product.png" alt=""> -->
+        Daily Products 
+    </h1>
+    <div class="a"></div>
+    <script>
+        let box = document.querySelector('.a')
+
+        fetch('https://dummyjson.com/products/')
+            .then((res) => res.json())
+            .then(data => {
+                console.log(data)
+                let p = ''
+                data.products.forEach(element => {
+                    p += `<div class='b'>
+                    <img src="${element.thumbnail}"
+                    <p><b>Title: </b> ${element.title}</p>
+                    <p><b> Brand : </b>${element.brand}</p>
+                    <p><b> Price : </b>${element.price}</p>
+                    <p><b> Category : </b>${element.category}</p>
+                    </div>
+                    `
+                });
+                box.innerHTML = p
+            }
+            )
+            .catch(err => console.log(err))
+            
+
+            
+    </script>
+    <!-- <script src="singlepro.js"></script> -->
+</body>
+
+</html>
